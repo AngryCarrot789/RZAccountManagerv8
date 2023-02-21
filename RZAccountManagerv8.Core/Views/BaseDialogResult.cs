@@ -3,6 +3,14 @@ namespace RZAccountManagerv8.Core.Views {
         /// <summary>
         /// True if the user confirmed the UI action, otherwise false to indicate the user cancelled the action
         /// </summary>
-        public bool IsSuccess { get; set; }
+        public bool Result { get; set; }
+
+        protected BaseDialogResult() : this(true) {
+
+        }
+
+        protected BaseDialogResult(bool result) {
+            this.Result = result;
+        }
     }
 }

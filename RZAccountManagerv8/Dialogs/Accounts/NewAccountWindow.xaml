@@ -5,8 +5,21 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:RZAccountManagerv8.Dialogs.Accounts"
         mc:Ignorable="d"
-        Title="NewAccountWindow" Height="450" Width="800">
+        d:DataContext="{d:DesignInstance Type=local:NewAccountViewModel}"
+        Title="NewAccountWindow" Height="225" Width="400">
+    <Window.InputBindings>
+        <KeyBinding Key="Return" Command="{Binding ConfirmCommand, Mode=OneTime}"/>
+        <KeyBinding Key="Esc" Command="{Binding CancelCommand, Mode=OneTime}"/>
+    </Window.InputBindings>
     <Grid>
-        
+        <TextBox x:Name="AccountNameBox" Padding="5" Margin="10,10,10,0" TextWrapping="NoWrap" Text="Account Name Here" HorizontalContentAlignment="Center" VerticalAlignment="Top"/>
+        <TextBlock Padding="5" HorizontalAlignment="Left" Margin="10,43,0,0" TextWrapping="Wrap" Text="Email" VerticalAlignment="Top"/>
+        <TextBox Padding="2" Margin="75,45,10,0" TextWrapping="NoWrap" VerticalAlignment="Top"/>
+        <TextBlock Padding="5" HorizontalAlignment="Left" Margin="10,69,0,0" TextWrapping="Wrap" Text="Username" VerticalAlignment="Top"/>
+        <TextBox Padding="2" Margin="75,71,10,0" TextWrapping="NoWrap" VerticalAlignment="Top"/>
+        <TextBlock Padding="5" HorizontalAlignment="Left" Margin="10,95,0,0" TextWrapping="Wrap" Text="Password" VerticalAlignment="Top"/>
+        <TextBox Padding="2" Margin="75,97,10,0" TextWrapping="NoWrap" VerticalAlignment="Top"/>
+        <Button Command="{Binding ConfirmCommand, Mode=OneTime}" Content="Create" HorizontalAlignment="Right" Margin="0,0,90,10" VerticalAlignment="Bottom" Width="75" Background="#FF96F032"/>
+        <Button Command="{Binding CancelCommand, Mode=OneTime}" Content="Cancel" HorizontalAlignment="Right" Margin="0,0,10,10" VerticalAlignment="Bottom" Width="75"/>
     </Grid>
 </Window>

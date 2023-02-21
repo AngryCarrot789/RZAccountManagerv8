@@ -4,9 +4,34 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:RZAccountManagerv8"
+        xmlns:accounting="clr-namespace:RZAccountManagerv8.Core.Accounting;assembly=RZAccountManagerv8.Core"
         mc:Ignorable="d"
+        d:DataContext="{d:DesignInstance Type=local:MainViewModel}"
         Title="MainWindow" Height="450" Width="800">
     <Grid>
-        
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="150"/>
+            <ColumnDefinition Width="5"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Grid Grid.Column="0" Background="{DynamicResource {x:Static SystemColors.ControlLightBrushKey}}"/>
+        <Grid Grid.Column="2" DataContext="{Binding AccountManager}">
+            <Grid.Resources>
+                <ContextMenu x:Key="SharedAccountItemContext" x:Shared="true" d:DataContext="{d:DesignInstance Type=accounting:AccountViewModel}">
+                    <MenuItem Header="Delete" Command="{Binding DeleteSelfCommand, Mode=OneTime}"/>
+                </ContextMenu>
+            </Grid.Resources>
+            <ListBox ItemsSource="{Binding Accounts}" SelectedItem="{Binding SelectedAccount, UpdateSourceTrigger=PropertyChanged}">
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <Grid Height="35" ContextMenu="{StaticResource SharedAccountItemContext}">
+                            <TextBlock Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}" FontSize="14" FontWeight="Medium" VerticalAlignment="Top"/>
+                            <TextBlock Text="{Binding Email, UpdateSourceTrigger=PropertyChanged}" Margin="0 19 0 0" VerticalAlignment="Top"/>
+                        </Grid>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+        </Grid>
+        <GridSplitter VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Grid.Column="1"/>
     </Grid>
 </Window>

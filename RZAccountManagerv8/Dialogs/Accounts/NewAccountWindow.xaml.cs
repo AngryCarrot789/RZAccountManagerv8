@@ -1,4 +1,5 @@
 ﻿using System.Windows;
+using System.Windows.Threading;
 using RZAccountManagerv8.Core.Views;
 
 namespace RZAccountManagerv8.Dialogs.Accounts {
@@ -8,10 +9,15 @@ namespace RZAccountManagerv8.Dialogs.Accounts {
     public partial class NewAccountWindow : Window, IView {
         public NewAccountWindow() {
             this.InitializeComponent();
+            this.Dispatcher.Invoke(() => {
+                this.AccountNameBox.Focus();
+                this.AccountNameBox.SelectAll();
+            }, DispatcherPriority.Loaded);
         }
 
         public void CloseView(bool result) {
-            throw new System.NotImplementedException();
+            this.DialogResult = result;
+            this.Close();
         }
     }
 }
