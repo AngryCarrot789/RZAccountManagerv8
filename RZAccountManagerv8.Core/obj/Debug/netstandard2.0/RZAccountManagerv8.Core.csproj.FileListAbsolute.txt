@@ -1,0 +1,10 @@
+F:\VSProjsV2\RZAccountManagerv8\RZAccountManagerv8.Core\bin\Debug\netstandard2.0\RZAccountManagerv8.Core.deps.json
+F:\VSProjsV2\RZAccountManagerv8\RZAccountManagerv8.Core\bin\Debug\netstandard2.0\RZAccountManagerv8.Core.dll
+F:\VSProjsV2\RZAccountManagerv8\RZAccountManagerv8.Core\bin\Debug\netstandard2.0\RZAccountManagerv8.Core.pdb
+F:\VSProjsV2\RZAccountManagerv8\RZAccountManagerv8.Core\obj\Debug\netstandard2.0\RZAccountManagerv8.Core.csproj.AssemblyReference.cache
+F:\VSProjsV2\RZAccountManagerv8\RZAccountManagerv8.Core\obj\Debug\netstandard2.0\RZAccountManagerv8.Core.GeneratedMSBuildEditorConfig.editorconfig
+F:\VSProjsV2\RZAccountManagerv8\RZAccountManagerv8.Core\obj\Debug\netstandard2.0\RZAccountManagerv8.Core.AssemblyInfoInputs.cache
+F:\VSProjsV2\RZAccountManagerv8\RZAccountManagerv8.Core\obj\Debug\netstandard2.0\RZAccountManagerv8.Core.AssemblyInfo.cs
+F:\VSProjsV2\RZAccountManagerv8\RZAccountManagerv8.Core\obj\Debug\netstandard2.0\RZAccountManagerv8.Core.csproj.CoreCompileInputs.cache
+F:\VSProjsV2\RZAccountManagerv8\RZAccountManagerv8.Core\obj\Debug\netstandard2.0\RZAccountManagerv8.Core.dll
+F:\VSProjsV2\RZAccountManagerv8\RZAccountManagerv8.Core\obj\Debug\netstandard2.0\RZAccountManagerv8.Core.pdb

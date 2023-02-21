@@ -1,0 +1,11 @@
+{
+  "version": 2,
+  "dgSpecHash": "YOx7x11FdASwU0yyITbEgNduCTRy5PLaR2RxEiYpdLpsNuSM4Gr0kKYXKUxl75maCmx9rHgHxQcKCazXQPdCLg==",
+  "success": true,
+  "projectFilePath": "F:\\VSProjsV2\\RZAccountManagerv8\\RZAccountManagerv8.Core\\RZAccountManagerv8.Core.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\kettl\\.nuget\\packages\\microsoft.netcore.platforms\\1.1.0\\microsoft.netcore.platforms.1.1.0.nupkg.sha512",
+    "C:\\Users\\kettl\\.nuget\\packages\\netstandard.library\\2.0.3\\netstandard.library.2.0.3.nupkg.sha512"
+  ],
+  "logs": []
+}
