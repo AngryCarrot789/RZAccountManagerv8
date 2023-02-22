@@ -1,34 +1,26 @@
-using System.Collections.ObjectModel;
-using System.Linq;
 using System.Windows.Input;
 using RZAccountManagerv8.Core.Dialogs.Accounts;
+using RZAccountManagerv8.Core.Explorers;
 
 namespace RZAccountManagerv8.Core.Accounting {
-    public class AccountManagerViewModel : BaseViewModel {
-        public ObservableCollection<AccountViewModel> Accounts { get; }
-
-        private AccountViewModel selectedAccount;
-        public AccountViewModel SelectedAccount {
-            get => this.selectedAccount;
-            set => this.RaisePropertyChanged(ref this.selectedAccount, value);
-        }
-
-        public ICommand NewAccountCommand { get; }
-
+    public class AccountManagerViewModel : ExplorerViewModel {
+        public ICommand CreateNewAccountCommand { get; }
         public ICommand DeleteSelectedAccountCommand { get; }
-        public RelayCommandParam<bool> DeleteSelectedAccountSkippableCommand { get; }
 
         public AccountManagerViewModel() {
-            this.Accounts = new ObservableCollection<AccountViewModel>();
-            this.NewAccountCommand = new RelayCommand(this.CreateNewAccountAction);
-            this.DeleteSelectedAccountCommand = new RelayCommand(this.DeleteSelectedAccountNonSkippableAction);
-            this.DeleteSelectedAccountSkippableCommand = new RelayCommandParam<bool>(this.DeleteSelectedAccountSkippableAction);
+            this.CreateNewAccountCommand = new RelayCommand(this.CreateNewAccountAction);
+            this.DeleteSelectedAccountCommand = new RelayCommand(this.DeleteSelectedAccountAction);
         }
 
         public async void CreateNewAccountAction() {
+            FolderItemViewModel folder = this.SelectedFolderNearestParent;
+            if (folder == null) {
+                return;
+            }
+
             NewAccountDialogResult result = await IoC.AccountDialogs.ShowNewAccountDialogAsync();
             if (result.Result) {
-                AccountViewModel account = new AccountViewModel(this) {
+                AccountViewModel account = new AccountViewModel() {
                     Name = result.Name,
                     Email = result.Email,
                     Username = result.Username,
@@ -36,67 +28,41 @@ namespace RZAccountManagerv8.Core.Accounting {
                     DateOfBirth = result.DateOfBirth
                 };
 
-                this.Accounts.Add(account);
+                folder.CreateFile(account);
             }
         }
 
         public void CreateAccount(string name, string email, string username, string password) {
-            AccountViewModel vm = new AccountViewModel(this) {
+            AccountViewModel vm = new AccountViewModel() {
                 Name = name,
                 Email = email,
                 Username = username,
                 Password = password
             };
 
-            this.Accounts.Add(vm);
+            this.Root.CreateFile(vm);
         }
 
-        public void DeleteSelectedAccountNonSkippableAction() {
-            this.DeleteSelectedAccountSkippableAction(false);
-        }
-
-        public async void DeleteSelectedAccountSkippableAction(bool skip) {
-            if (this.SelectedAccount != null) {
-                if (skip || await IoC.MessageDialogs.ShowYesNoDialogAsync("Delete this account?", $"Are you sure you want to delete {this.SelectedAccount.Name}?")) {
-                    this.DeleteSelectedAccountAction();
+        public async void DeleteSelectedAccountAction() {
+            FileItemViewModel selected = this.SelectedFile;
+            if (selected != null && selected.Parent != null && this.TryGetDataFromContainer(selected, out AccountViewModel account)) {
+                if (await IoC.MessageDialogs.ShowOkCancelDialogAsync("Delete this account?", $"Are you sure you want to delete {account.Name}?")) {
+                    selected.Parent.Remove(selected);
                 }
             }
-        }
-
-        private void DeleteSelectedAccountAction() {
-            if (this.SelectedAccount == null) {
-                return;
-            }
-
-            this.RemoveAccount(this.SelectedAccount);
         }
 
         public async void DeleteAccount(AccountViewModel account, bool skip) {
-            if (skip || await IoC.MessageDialogs.ShowYesNoDialogAsync("Delete this account?", $"Are you sure you want to delete {this.SelectedAccount.Name}?")) {
-                this.RemoveAccount(account);
+            FileItemViewModel item = this.GetFileForAccount(account);
+            if (item != null && item.Parent != null) {
+                if (skip || await IoC.MessageDialogs.ShowOkCancelDialogAsync("Delete this account?", $"Are you sure you want to delete {account.Name}?")) {
+                    item.Parent.Remove(item);
+                }
             }
         }
 
-        public void RemoveAccount(AccountViewModel account) {
-            int index = this.Accounts.IndexOf(account);
-            if (index != -1) {
-                bool selectLast = this.SelectedAccount == account;
-                this.Accounts.Remove(account);
-                if (selectLast && this.Accounts.Count > 0) {
-                    if (index > 0)
-                        index--;
-
-                    if (index >= 0 && index < this.Accounts.Count) {
-                        this.SelectedAccount = this.Accounts[index];
-                    }
-                }
-            }
-            else if (account == this.SelectedAccount) {
-                this.SelectedAccount = null;
-                if (this.Accounts.Count > 0) {
-                    this.SelectedAccount = this.Accounts[0];
-                }
-            }
+        public FileItemViewModel GetFileForAccount(AccountViewModel account) {
+            return this.Root.GetFileForDataObject(account);
         }
     }
 }

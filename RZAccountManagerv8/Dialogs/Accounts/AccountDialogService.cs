@@ -12,6 +12,7 @@ namespace RZAccountManagerv8.Dialogs.Accounts {
             NewAccountWindow window = new NewAccountWindow();
             NewAccountViewModel vm = new NewAccountViewModel(window);
             window.DataContext = vm;
+            window.SelectAccountNameBox();
 
             if (window.ShowDialog() != true) {
                 return new NewAccountDialogResult(false);

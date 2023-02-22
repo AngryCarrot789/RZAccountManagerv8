@@ -1,5 +1,4 @@
 using System;
-using System.Windows.Input;
 
 namespace RZAccountManagerv8.Core.Accounting {
     public class AccountViewModel : BaseViewModel {
@@ -64,17 +63,7 @@ namespace RZAccountManagerv8.Core.Accounting {
             set => this.RaisePropertyChanged(ref this.customInfo, value);
         }
 
-        public ICommand DeleteSelfCommand { get; }
-
-        public AccountManagerViewModel Manager { get; }
-
-        public AccountViewModel(AccountManagerViewModel manager) {
-            this.Manager = manager;
-            this.DeleteSelfCommand = new RelayCommand(this.DeleteSelfAction);
-        }
-
-        private void DeleteSelfAction() {
-            this.Manager.DeleteAccount(this, false);
+        public AccountViewModel() {
         }
     }
 }

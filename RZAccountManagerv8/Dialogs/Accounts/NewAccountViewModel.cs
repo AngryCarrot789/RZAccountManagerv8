@@ -36,7 +36,7 @@ namespace RZAccountManagerv8.Dialogs.Accounts {
         }
 
         public NewAccountViewModel(IView view) : base(view) {
-
+            this.Name = "Account Name Here";
         }
 
         public override async void ConfirmAction() {

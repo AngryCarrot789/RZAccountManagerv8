@@ -4,34 +4,79 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:RZAccountManagerv8"
-        xmlns:accounting="clr-namespace:RZAccountManagerv8.Core.Accounting;assembly=RZAccountManagerv8.Core"
+        xmlns:a="clr-namespace:RZAccountManagerv8.Core.Accounting;assembly=RZAccountManagerv8.Core"
+        xmlns:c="clr-namespace:RZAccountManagerv8.ExplorerTree"
+        xmlns:explorers="clr-namespace:RZAccountManagerv8.Core.Explorers;assembly=RZAccountManagerv8.Core"
         mc:Ignorable="d"
         d:DataContext="{d:DesignInstance Type=local:MainViewModel}"
-        Title="MainWindow" Height="450" Width="800">
+        Title="MainWindow" Height="576" Width="1024"
+        Style="{StaticResource CustomWindowStyle}">
+    <Window.InputBindings>
+        <KeyBinding Key="N" Modifiers="Ctrl+Shift" Command="{Binding AccountManager.CreateNewAccountCommand, Mode=OneTime}"/>
+    </Window.InputBindings>
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="150"/>
+            <ColumnDefinition Width="240"/>
             <ColumnDefinition Width="5"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
-        <Grid Grid.Column="0" Background="{DynamicResource {x:Static SystemColors.ControlLightBrushKey}}"/>
-        <Grid Grid.Column="2" DataContext="{Binding AccountManager}">
-            <Grid.Resources>
-                <ContextMenu x:Key="SharedAccountItemContext" x:Shared="true" d:DataContext="{d:DesignInstance Type=accounting:AccountViewModel}">
-                    <MenuItem Header="Delete" Command="{Binding DeleteSelfCommand, Mode=OneTime}"/>
-                </ContextMenu>
-            </Grid.Resources>
-            <ListBox ItemsSource="{Binding Accounts}" SelectedItem="{Binding SelectedAccount, UpdateSourceTrigger=PropertyChanged}">
-                <ListBox.ItemTemplate>
-                    <DataTemplate>
-                        <Grid Height="35" ContextMenu="{StaticResource SharedAccountItemContext}">
-                            <TextBlock Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}" FontSize="14" FontWeight="Medium" VerticalAlignment="Top"/>
-                            <TextBlock Text="{Binding Email, UpdateSourceTrigger=PropertyChanged}" Margin="0 19 0 0" VerticalAlignment="Top"/>
-                        </Grid>
-                    </DataTemplate>
-                </ListBox.ItemTemplate>
-            </ListBox>
-        </Grid>
-        <GridSplitter VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Grid.Column="1"/>
+        <Border Grid.Column="0" DataContext="{Binding AccountManager}" 
+                Background="{DynamicResource AREghZyBrush.Primary.1.Background.Static}" 
+                BorderBrush="{DynamicResource AREghZyBrush.Primary.2.Border.Static}"
+                BorderThickness="1 1 0 1" >
+            <Grid>
+                <Grid.Resources>
+                    <ContextMenu x:Key="SharedAccountItemContext" x:Shared="true" d:DataContext="{d:DesignInstance Type=explorers:FileItemViewModel}">
+                        <MenuItem Header="Delete" Command="{Binding DeleteSelfCommand, Mode=OneTime}"/>
+                    </ContextMenu>
+                </Grid.Resources>
+                <Border Height="25" VerticalAlignment="Top">
+                    <Grid/>
+                </Border>
+                <c:ExtendedTreeView Explorer="{Binding}"
+                                    ItemsSource="{Binding Root.Children}"
+                                    BorderThickness="1 1 1 1"
+                                    BorderBrush="{DynamicResource AREghZyBrush.Primary.2.Border.Static}" Margin="0,19,0,0"
+                                    Background="{DynamicResource AREghZyBrush.Primary.1.Background.Static}">
+                    <c:ExtendedTreeView.Style>
+                        <Style TargetType="{x:Type c:ExtendedTreeView}" BasedOn="{StaticResource {x:Type TreeView}}"/>
+                    </c:ExtendedTreeView.Style>
+                    <c:ExtendedTreeView.ItemContainerStyle>
+                        <Style TargetType="{x:Type TreeViewItem}" BasedOn="{StaticResource LargeSelectionTreeViewItem}">
+                            <Setter Property="IsExpanded" Value="{Binding IsExpanded, Mode=TwoWay}"/>
+                        </Style>
+                    </c:ExtendedTreeView.ItemContainerStyle>
+                    <c:ExtendedTreeView.Resources>
+                        <DataTemplate DataType="{x:Type explorers:FileItemViewModel}">
+                            <Grid ContextMenu="{StaticResource SharedAccountItemContext}">
+                                <Grid DataContext="{Binding Data}" d:DataContext="{d:DesignInstance a:AccountViewModel}">
+                                    <TextBlock Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}"/>
+                                </Grid>
+                            </Grid>
+                        </DataTemplate>
+                        <HierarchicalDataTemplate DataType="{x:Type explorers:FolderItemViewModel}" ItemsSource="{Binding Children}">
+                            <Grid ContextMenu="{StaticResource SharedAccountItemContext}">
+                                <Grid DataContext="{Binding Data}" d:DataContext="{d:DesignInstance a:AccountDirectoryViewModel}">
+                                    <TextBlock Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}"/>
+                                </Grid>
+                            </Grid>
+                        </HierarchicalDataTemplate>
+                    </c:ExtendedTreeView.Resources>
+                </c:ExtendedTreeView>
+            </Grid>
+        </Border>
+        <Border Grid.Column="2" 
+                Background="{DynamicResource AREghZyBrush.Deep.2.Background.Static}" 
+                BorderBrush="{DynamicResource AREghZyBrush.Primary.2.Border.Static}" 
+                BorderThickness="0 1 1 1">
+            <Grid>
+
+            </Grid>
+        </Border>
+        <GridSplitter VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Grid.Column="1" 
+                      Background="{DynamicResource AREghZyBrush.Deep.2.Background.Static}" 
+                      BorderBrush="{DynamicResource AREghZyBrush.Primary.2.Border.Static}" 
+                      BorderThickness="1 1 0 1">
+        </GridSplitter>
     </Grid>
 </Window>

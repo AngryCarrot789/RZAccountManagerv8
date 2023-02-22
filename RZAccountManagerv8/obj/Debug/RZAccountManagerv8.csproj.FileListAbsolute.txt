@@ -18,3 +18,13 @@ F:\VSProjsV2\RZAccountManagerv8\RZAccountManagerv8\bin\Debug\RZAccountManagerv8.
 F:\VSProjsV2\RZAccountManagerv8\RZAccountManagerv8\obj\Debug\Dialogs\Accounts\NewAccountWindow.g.cs
 F:\VSProjsV2\RZAccountManagerv8\RZAccountManagerv8\obj\Debug\Dialogs\Accounts\NewAccountWindow.baml
 F:\VSProjsV2\RZAccountManagerv8\RZAccountManagerv8\obj\Debug\RZAccountManagerv8.csproj.CopyComplete
+F:\VSProjsV2\RZAccountManagerv8\RZAccountManagerv8\obj\Debug\Themes\ControlColours.baml
+F:\VSProjsV2\RZAccountManagerv8\RZAccountManagerv8\obj\Debug\Themes\DeepDark.baml
+F:\VSProjsV2\RZAccountManagerv8\RZAccountManagerv8\obj\Debug\Themes\RedBlackTheme.baml
+F:\VSProjsV2\RZAccountManagerv8\RZAccountManagerv8\obj\Debug\Themes\SoftDark.baml
+F:\VSProjsV2\RZAccountManagerv8\RZAccountManagerv8\obj\Debug\Themes\VeryDarkTheme.baml
+F:\VSProjsV2\RZAccountManagerv8\RZAccountManagerv8\obj\Debug\Themes\Controls.g.cs
+F:\VSProjsV2\RZAccountManagerv8\RZAccountManagerv8\obj\Debug\GeneratedInternalTypeHelper.g.cs
+F:\VSProjsV2\RZAccountManagerv8\RZAccountManagerv8\obj\Debug\App.baml
+F:\VSProjsV2\RZAccountManagerv8\RZAccountManagerv8\obj\Debug\Themes\Controls.baml
+F:\VSProjsV2\RZAccountManagerv8\RZAccountManagerv8\obj\Debug\ExplorerTree\ExplorerStyles.baml

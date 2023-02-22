@@ -15,5 +15,7 @@ namespace RZAccountManagerv8.Core.Dialogs.Messages {
         Task<Tristate> ShowYesNoCancelDialogAsync(string caption, string message, Tristate defaultOption = Tristate.None);
 
         Task<bool> ShowYesNoDialogAsync(string caption, string message, bool defaultOption = false);
+
+        Task<bool> ShowOkCancelDialogAsync(string caption, string message, bool defaultOption = false);
     }
 }
