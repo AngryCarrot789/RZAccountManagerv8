@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace RZAccountManagerv8.Core {
+namespace RZAccountManagerV8.Core {
     public class SimpleIoC {
         private readonly Dictionary<Type, object> services;
 

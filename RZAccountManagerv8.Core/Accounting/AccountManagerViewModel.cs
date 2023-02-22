@@ -1,68 +1,81 @@
-using System.Windows.Input;
-using RZAccountManagerv8.Core.Dialogs.Accounts;
-using RZAccountManagerv8.Core.Explorers;
+using System.Collections.ObjectModel;
+using System.IO;
+using RZAccountManagerV8.Core.Dialogs.Accounts;
+using RZAccountManagerV8.Core.Navigator;
+using RZAccountManagerV8.Core.Utils;
 
-namespace RZAccountManagerv8.Core.Accounting {
-    public class AccountManagerViewModel : ExplorerViewModel {
-        public ICommand CreateNewAccountCommand { get; }
-        public ICommand DeleteSelectedAccountCommand { get; }
+namespace RZAccountManagerV8.Core.Accounting {
+    public class AccountManagerViewModel : BaseViewModel {
+        public RelayCommand CreateNewAccountCommand { get; }
+        public RelayCommand DeleteSelectedAccountCommand { get; }
+
+        public FileNavigatorViewModel Navigator { get; }
+
+        public ObservableCollection<BaseNavItemViewModel> RightList { get; }
+
+        private bool isDetailViewerOpen;
+        public bool IsDetailViewerOpen {
+            get => this.isDetailViewerOpen;
+            set => this.RaisePropertyChanged(ref this.isDetailViewerOpen, value);
+        }
+
+        private bool isSecondAccountListOpen;
+        public bool IsSecondAccountListOpen {
+            get => this.isSecondAccountListOpen;
+            set => this.RaisePropertyChanged(ref this.isSecondAccountListOpen, value);
+        }
 
         public AccountManagerViewModel() {
             this.CreateNewAccountCommand = new RelayCommand(this.CreateNewAccountAction);
-            this.DeleteSelectedAccountCommand = new RelayCommand(this.DeleteSelectedAccountAction);
+            this.DeleteSelectedAccountCommand = new RelayCommand(this.DeleteSelectedAccountAction, () => this.Navigator.SelectedItem != null);
+            this.RightList = new ObservableCollection<BaseNavItemViewModel>();
+            this.Navigator = new FileNavigatorViewModel(this);
+            this.Navigator.OnSelectedItemChanged += (old, item) => {
+                this.DeleteSelectedAccountCommand.RaiseCanExecuteChanged();
+                if (item != null) {
+                    if (item is AccountDirectoryViewModel) {
+                        this.IsDetailViewerOpen = false;
+                        this.IsSecondAccountListOpen = true;
+                    }
+                    else { // convenience
+                        this.IsSecondAccountListOpen = false;
+                        this.IsDetailViewerOpen = true;
+                    }
+                }
+            };
         }
 
         public async void CreateNewAccountAction() {
-            FolderItemViewModel folder = this.SelectedFolderNearestParent;
-            if (folder == null) {
-                return;
-            }
-
             NewAccountDialogResult result = await IoC.AccountDialogs.ShowNewAccountDialogAsync();
             if (result.Result) {
-                AccountViewModel account = new AccountViewModel() {
-                    Name = result.Name,
-                    Email = result.Email,
-                    Username = result.Username,
-                    Password = result.Password,
-                    DateOfBirth = result.DateOfBirth
-                };
-
-                folder.CreateFile(account);
+                this.Navigator.CurrentFolder.CreateAccount(result.Name, result.Email, result.Username, result.Password, result.DateOfBirth, "");
             }
         }
 
-        public void CreateAccount(string name, string email, string username, string password) {
-            AccountViewModel vm = new AccountViewModel() {
-                Name = name,
-                Email = email,
-                Username = username,
-                Password = password
-            };
-
-            this.Root.CreateFile(vm);
+        public void DeleteSelectedAccountAction() {
+            this.DeleteSelectedAccountAction(false);
         }
 
-        public async void DeleteSelectedAccountAction() {
-            FileItemViewModel selected = this.SelectedFile;
-            if (selected != null && selected.Parent != null && this.TryGetDataFromContainer(selected, out AccountViewModel account)) {
-                if (await IoC.MessageDialogs.ShowOkCancelDialogAsync("Delete this account?", $"Are you sure you want to delete {account.Name}?")) {
-                    selected.Parent.Remove(selected);
+        public void DeleteSelectedAccountAction(bool skipUi) {
+            this.DeleteAccount(this.Navigator.SelectedItem, skipUi);
+        }
+
+        public async void DeleteAccount(BaseNavItemViewModel account, bool skipUi) {
+            if (account != null && account.Parent != null) {
+                if (account is AccountDirectoryViewModel dir) {
+                    if (!skipUi) {
+                        string readable = dir.Children.JoinToStringReadable(", ", (x) => x is AccountViewModel acc ? acc.Name : ((AccountDirectoryViewModel) x).Name);
+                        if (!await IoC.MessageDialogs.ShowOkCancelDialogAsync("Delete this folder?", $"Are you sure you want to delete {dir.Name}? It contains {dir.Children.Count} items {(readable.Length > 0 ? $"({readable})" : "")}")) {
+                            return;
+                        }
+                    }
                 }
-            }
-        }
-
-        public async void DeleteAccount(AccountViewModel account, bool skip) {
-            FileItemViewModel item = this.GetFileForAccount(account);
-            if (item != null && item.Parent != null) {
-                if (skip || await IoC.MessageDialogs.ShowOkCancelDialogAsync("Delete this account?", $"Are you sure you want to delete {account.Name}?")) {
-                    item.Parent.Remove(item);
+                else if (!skipUi && !await IoC.MessageDialogs.ShowOkCancelDialogAsync("Delete this account?", $"Are you sure you want to delete {((AccountViewModel) account).Name}?")) {
+                    return;
                 }
-            }
-        }
 
-        public FileItemViewModel GetFileForAccount(AccountViewModel account) {
-            return this.Root.GetFileForDataObject(account);
+                this.Navigator.Remove(account);
+            }
         }
     }
 }

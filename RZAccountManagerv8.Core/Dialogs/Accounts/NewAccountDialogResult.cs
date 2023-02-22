@@ -1,7 +1,7 @@
 using System;
-using RZAccountManagerv8.Core.Views;
+using RZAccountManagerV8.Core.Views;
 
-namespace RZAccountManagerv8.Core.Dialogs.Accounts {
+namespace RZAccountManagerV8.Core.Dialogs.Accounts {
     public class NewAccountDialogResult : BaseDialogResult {
         public string Name { get; set; }
         public string Email { get; set; }

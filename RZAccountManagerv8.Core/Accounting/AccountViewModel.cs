@@ -1,7 +1,8 @@
 using System;
+using System.Windows.Input;
 
-namespace RZAccountManagerv8.Core.Accounting {
-    public class AccountViewModel : BaseViewModel {
+namespace RZAccountManagerV8.Core.Accounting {
+    public class AccountViewModel : BaseNavItemViewModel {
         private string name;
         private string email;
         private string username;
@@ -63,7 +64,8 @@ namespace RZAccountManagerv8.Core.Accounting {
             set => this.RaisePropertyChanged(ref this.customInfo, value);
         }
 
-        public AccountViewModel() {
+        public AccountViewModel(AccountManagerViewModel manager) : base(manager) {
+
         }
     }
 }

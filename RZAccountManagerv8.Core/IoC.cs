@@ -1,7 +1,7 @@
-﻿using RZAccountManagerv8.Core.Dialogs.Accounts;
-using RZAccountManagerv8.Core.Dialogs.Messages;
+﻿using RZAccountManagerV8.Core.Dialogs.Accounts;
+using RZAccountManagerV8.Core.Dialogs.Messages;
 
-namespace RZAccountManagerv8.Core {
+namespace RZAccountManagerV8.Core {
     public static class IoC {
         public static SimpleIoC Instance { get; } = new SimpleIoC();
         public static IAccountDialogService AccountDialogs => Instance.Provide<IAccountDialogService>();

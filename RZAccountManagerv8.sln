@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.33130.400
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RZAccountManagerv8", "RZAccountManagerv8\RZAccountManagerv8.csproj", "{299522B6-CF5E-449F-B0B6-85A8A5562011}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RZAccountManagerV8", "RZAccountManagerV8\RZAccountManagerV8.csproj", "{299522B6-CF5E-449F-B0B6-85A8A5562011}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RZAccountManagerv8.Core", "RZAccountManagerv8.Core\RZAccountManagerv8.Core.csproj", "{79AAB449-7A44-4940-9108-E4E394295B85}"
 EndProject

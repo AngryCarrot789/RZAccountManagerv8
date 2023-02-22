@@ -1,7 +1,7 @@
 using System.Threading.Tasks;
-using RZAccountManagerv8.Core.Utils;
+using RZAccountManagerV8.Core.Utils;
 
-namespace RZAccountManagerv8.Core.Dialogs.Messages {
+namespace RZAccountManagerV8.Core.Dialogs.Messages {
     public interface IMessageDialogService {
         Task ShowDialogAsync(string caption, string message);
         Task ShowDialogAsync(string message);

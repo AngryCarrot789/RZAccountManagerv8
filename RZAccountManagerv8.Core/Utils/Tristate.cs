@@ -1,4 +1,4 @@
-namespace RZAccountManagerv8.Core.Utils {
+namespace RZAccountManagerV8.Core.Utils {
     public enum Tristate : byte {
         True,
         False,

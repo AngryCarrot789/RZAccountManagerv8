@@ -1,6 +1,6 @@
 using System;
 
-namespace RZAccountManagerv8.Core {
+namespace RZAccountManagerV8.Core {
     /// <summary>
     /// A simple relay command, which does not take any parameters
     /// </summary>
@@ -11,16 +11,35 @@ namespace RZAccountManagerv8.Core {
         private readonly Action execute;
 
         /// <summary>
+        /// True if command is executing, false otherwise
+        /// </summary>
+        private readonly Func<bool> canExecute;
+
+        /// <summary>
         /// Initializes a new instance of <see cref="RelayCommand"/>
         /// </summary>
         /// <param name="execute">The execution logic.</param>
         /// <param name="canExecute">The execution status logic</param>
-        public RelayCommand(Action execute, Func<bool> canExecute = null) : base(canExecute) {
+        public RelayCommand(Action execute, Func<bool> canExecute = null) {
             if (execute == null) {
                 throw new ArgumentNullException(nameof(execute), "Execute callback cannot be null");
             }
 
             this.execute = execute;
+            this.canExecute = canExecute;
+        }
+
+        /// <summary>
+        /// Determines whether this <see cref="BaseRelayCommand"/> can execute in its current state
+        /// </summary>
+        /// <param name="parameter">
+        /// Data used by the command. This may be null, if the command does not require a parameter
+        /// </param>
+        /// <returns>
+        /// True if the command can be executed, otherwise false if it cannot be executed
+        /// </returns>
+        public override bool CanExecute(object parameter) {
+            return this.canExecute == null || this.canExecute();
         }
 
         /// <summary>

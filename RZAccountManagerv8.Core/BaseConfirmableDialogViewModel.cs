@@ -1,7 +1,7 @@
 using System.Windows.Input;
-using RZAccountManagerv8.Core.Views;
+using RZAccountManagerV8.Core.Views;
 
-namespace RZAccountManagerv8.Core {
+namespace RZAccountManagerV8.Core {
     public abstract class BaseConfirmableDialogViewModel : BaseDialogViewModel {
         public ICommand ConfirmCommand { get; }
         public ICommand CancelCommand { get; }

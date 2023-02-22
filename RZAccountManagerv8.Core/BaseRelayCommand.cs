@@ -1,31 +1,27 @@
 using System;
 using System.Windows.Input;
 
-namespace RZAccountManagerv8.Core {
-/// <summary>
+namespace RZAccountManagerV8.Core {
+    /// <summary>
     /// A base relay command class, that implements ICommand, and also has a simple
     /// implementation for dealing with the <see cref="CanExecuteChanged"/> event handler
     /// </summary>
     public abstract class BaseRelayCommand : ICommand {
         /// <summary>
-        /// True if command is executing, false otherwise
+        /// Raised when <see cref="RaiseCanExecuteChanged"/> is called
         /// </summary>
-        protected readonly Func<bool> canExecute;
+        public event EventHandler CanExecuteChanged;
 
         /// <summary>
         /// Initializes a new instance of <see cref="BaseRelayCommand"/>
         /// </summary>
         /// <param name="canExecute">The execution status logic</param>
-        public BaseRelayCommand(Func<bool> canExecute = null) {
-            this.canExecute = canExecute;
+        protected BaseRelayCommand() {
+
         }
 
         public abstract void Execute(object parameter);
 
-        /// <summary>
-        /// Raised when <see cref="RaiseCanExecuteChanged"/> is called
-        /// </summary>
-        public event EventHandler CanExecuteChanged;
 
         /// <summary>
         /// Determines whether this <see cref="BaseRelayCommand"/> can execute in its current state
@@ -36,9 +32,7 @@ namespace RZAccountManagerv8.Core {
         /// <returns>
         /// True if the command can be executed, otherwise false if it cannot be executed
         /// </returns>
-        public bool CanExecute(object parameter) {
-            return this.canExecute == null ? true : this.canExecute();
-        }
+        public abstract bool CanExecute(object parameter);
 
         /// <summary>
         /// Method used to raise the <see cref="CanExecuteChanged"/> event to indicate that the
@@ -48,7 +42,7 @@ namespace RZAccountManagerv8.Core {
         /// button to become greyed out (disabled) if <see cref="CanExecute"/> returns false
         /// </para>
         /// </summary>
-        public void RaiseCanExecuteChanged() {
+        public virtual void RaiseCanExecuteChanged() {
             this.CanExecuteChanged?.Invoke(this, EventArgs.Empty);
         }
     }
